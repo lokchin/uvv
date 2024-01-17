@@ -1,0 +1,84 @@
+<!-- index.html-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Cidade de Todos</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+
+  <!-- fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300&family=Roboto&display=swap" rel="stylesheet">
+  
+</head>
+
+<body>
+  <header class="cabeca">
+    <img src="imgs/Logo.svg" alt="Logo">
+  </header>
+
+  <div class="main-content">
+    <div class="orange-section">
+      <img src="imgs/imagens.gif" alt="fotos">
+      <div class="content2">
+        <p class="banner-title">O projeto que facilita a voz do cidadão</p>
+        <div class="button">
+          <a onclick="showPopup()">Iniciar Tour</a>
+        </div>
+      </div>
+
+        <div class="popup" id="popup">
+          <div class="popup-content">
+            <h2 class="titulo-popup"> Atenção! </h2>
+            <p class="texto-popup"> Nosso app é um protótipo para testar a navegabilidade e utilidade, não há inserção de dados reais, não pedimos quaisquer informações ou termos reais.</p>
+            <div class="button">
+              <a href="src\pages\figma\figma.html" onclick="closePopup()">Compreendo e desejo continuar</a>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <div class="gray-section">
+      <p><a id="revealButton">Saiba mais</a></p>
+    </div>
+    <div id="hiddenContent">
+      <p class="div-texto" class="historia" id="historia">O projeto Cidade de Todos nasceu de uma ideia de uma rede social que sirva para resolver os problemas do dia a dia de fácil solução de competência de orgãos públicos. A ideia é tornar facilitar a forma que o cidadão tem de se comunicar com o orgão público competente de sua cidade/município. O cidadão após se registrar no sistema pode postar ou votar na relevância do post de outras pessoas, facilitando a ação pública de priorizar.
+        Fizemos a prototipagem de um sistema simples e trivial para uso, podendo ser testado o sistema de upvote e downvote em duas postagens de categoria "acessibilidade" e "infraestrutura". Problemas recorrentes como fios cortados ou buracos em vias terão mais visibilidade.
+        Isso implica na desburocratização e no descongestionamento das ouvidorias públicas, além de ser um catalisador para a democracia.</p>
+      <div class="dt-titulo"> 
+        Integrantes:
+      </div>
+      <div class="div-texto">
+        - Bruno Lokchin <br>- Lucas Bertolino <br>- Rafael Lovat <br>- Yuri Salim <br><br>
+      </div>
+      <div class="dt-titulo"> 
+        Diagrama:
+      </div>
+      <div class="div-texto">
+        1.0 - O usuário loga com CPF e senha. <br>
+        1.1 - O usuário loga com Gov.br. <br>  
+        1.2 - O usuário se registra. <br>
+        2.0 - O usuário acessa o feed. <br>
+        3.0 - O usuário acessa a tela de postagem. <br>
+        4.0 - As fotos e informações referente a dor do usuário é definida na tela de postagem. <br>
+        5.0 - O usuário confirma sua postagem. <br>
+        6.0 - A postagem será analisada e aprovada por uma inteligência artificial para definir se está com contexto descrito e se é de competência pública. <br>
+      </div>
+
+</p>
+    </div>
+    
+  </div>
+
+  <script src="popup.js"></script>
+  <script src="texto.js"></script>
+</body>
+
+</html>
