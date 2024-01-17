@@ -1,0 +1,1 @@
+- Diretório para o armazenamento das fotos usadas no [readme](https://github.com/Lokchin/uvv_bd_1_cc1m/tree/main/pset2) do diretório _PSet2_
