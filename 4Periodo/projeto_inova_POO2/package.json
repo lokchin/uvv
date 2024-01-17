@@ -1,0 +1,37 @@
+{
+  "name": "inovaweek",
+  "version": "1.0.0",
+  "description": "Sistema que auxilia a avaliação e inserção das notas dos grupos do InovaWeek 2023. Escrito em TypeScript, banco de dados SQLite, e ORM Prisma.",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "start-server": "nodemon src/server.ts",
+    "migrate": "npx prisma migrate dev --name init",
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lokchin/projeto_inova_POO2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lokchin/projeto_inova_POO2/issues"
+  },
+  "homepage": "https://github.com/lokchin/projeto_inova_POO2#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.19",
+    "@types/node": "^20.8.6",
+    "nodemon": "^3.0.1",
+    "prisma": "^5.4.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.4.2",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow-y: visible;
+            background-color: #051923;
+        }
+
+        main.container {
+            min-width: 100%;
+            min-height: 100%;
+
+            display: grid;
+            place-items: center;
+        }
+
+        input.form-control {
+            color: #fff !important;
+            background-color: transparent !important;
+            border-color: #006494 !important;
+        }
+
+        input.form-control::placeholder {
+            color: #006494 !important;
+        }
+
+        input.form-control:focus,
+        input.form-control:active {
+            background-color: transparent !important;
+            border-color: #00A6FB !important;
+        }
+
+        input.form-control:focus::placeholder {
+            color: #00A6FB !important;
+        }
+
+        table {
+            border: 0.1px solid #003554 !important;
+        }
+
+        th {
+            font-size: 1rem;
+            font-weight: 700;
+
+            background-color: #003554 !important;
+        }
+
+        th,
+        td {
+            text-align: center;
+        }
+
+        td {
+            background-color: transparent !important;
+        }
+
+        .modal-content {
+            background-color: #051923;
+            color: #fff;
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            border: none !important;
+        }
+    </style>
+
+    <!-- Title -->
+    <title>Estande</title>
+</head>
+
+<body>
+    <main class="container">
+        <!-- 
+
+            Formulário de inserção
+
+         -->
+        <form class="row g-3" style="width: 60% !important;">
+            <div class="col-md-9">
+                <input type="text" name="inserirEstande" id="inserirEstande" class="form-control" placeholder="Número do estande"
+                    aria-label="Número do estande">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary" style="width: 100%;"
+                    onclick="inserirEstande()">Inserir</button>
+            </div>
+        </form>
+        <!-- 
+
+            Tabela de alunos inseridos
+
+         -->
+        <table class="table table-striped-custom table-bordered align-middle table-dark" style="width: 60% !important;">
+            <thead>
+                <tr>
+                    <th scope="col">Número</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let i=0; i < estandes.length; i++) { %>
+                    <tr>
+                        <td>
+                            <%= estandes[i].numero %>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger"
+                                onclick="deletarEstande('<%= estandes[i].numero %>')">
+                                Deletar
+                            </button>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        function inserirEstande() {
+            let numero = document.getElementById('inserirEstande').value;
+
+            let body = JSON.stringify({
+                numero: numero
+            });
+
+            fetch("/estande/insert", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body
+            });
+        }
+
+        function deletarEstande(numero) {
+            fetch(`/estande/delete/${numero}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/estande/';
+                } else {
+                    console.error('Erro ao deletar aluno:', response.statusText);
+                }
+            });
+        }
+    </script>
+
+    <!-- Bootstrap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

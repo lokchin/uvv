@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Professor {
+  matricula  String   @id @default(uuid())
+  email      String   @unique
+  nome       String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model Aluno {
+  matricula  String   @id @default(uuid())
+  email      String   @unique
+  nome       String
+  lider      Grupo?   @relation(name: "lider")
+  membros    Grupo[]  @relation(name: "membros")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model Grupo {
+  nome           String      @id @default(uuid())
+  lider          Aluno       @relation(name: "lider", fields: [liderMatricula], references: [matricula], onUpdate: Cascade, onDelete: Cascade)
+  membros        Aluno       @relation(name: "membros", fields: [liderMatricula], references: [matricula], onUpdate: Cascade, onDelete: Cascade)
+  liderMatricula String      @unique @default("")
+  avaliacoes     Avaliacao[] @relation(name: "avaliacao")
+  estande        Estande     @relation(name: "grupo", fields: [estandeNumero], references: [numero], onUpdate: Cascade, onDelete: Cascade)
+  estandeNumero  String      @default("")
+}
+
+model Estande {
+  numero String  @id @default(uuid())
+  grupos Grupo[] @relation(name: "grupo")
+}
+
+model Avaliacao {
+  avaliador String
+  grupo     Grupo  @relation(name: "avaliacao", fields: [nomeGrupo], references: [nome], onUpdate: Cascade, onDelete: Cascade)
+  nomeGrupo String
+  nota      Int
+
+  @@id([avaliador, nomeGrupo])
+}
