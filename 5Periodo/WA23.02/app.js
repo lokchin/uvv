@@ -1,63 +1,49 @@
 import fastify from 'fastify';
 import createError from '@fastify/error';
-import fastifyStatic from '@fastify/static';
-import path from 'path';
+import autoload from '@fastify/autoload';
 import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 
 const MyCustomError = createError('MyCustomError', 'Something stranged happened.', 501);
 
 export async function build(opts){
     const app = fastify(opts);
+    
+    app.register(autoload, {
+        dir: join(__dirname, 'routes')
+    });
 
-    app.register(fastifyStatic, {
-        root: path.join(__dirname, 'public'),
-        wildcard: false
+    const logMe = async(request, reply) => {
+        request.log.info(`Request on route: ${request.url}`)
+    }
+
+    app.addHook('onRoute', async(routeOptions) => {
+        if (routeOptions.config?.logMe) {
+            if(!Array.isArray(routeOptions.onRequest) && (routeOptions.onRequest)) {
+                routeOptions.onRequest = [routeOptions.onRequest];
+            } else {
+                routeOptions.onRequest = [];
+            }
+            routeOptions.onRequest.push(logMe)
+        }
     });
-    app.get('/*', async (request, reply) => {
-        request.log.info({params: request.params}, 'Hello from wildcard.');
-        return reply.sendFile('index.html');
-    });
-   
+
     app.get('/error', (request, reply) => {
         throw new MyCustomError();
     });
-
-    
-
-    const products = [
-        {id: 1, name: 'Tomate', qtd: 20},
-        {id: 2, name: 'Cebola', qtd: 50}
-    ]
-
-    app.get('/products', async (request, reply) => {
-        return products;
-    });
-
-    app.post('/products', async (request, reply) => {
-        let product = request.body;
-        return {product};
-    });
-
-    app.get('/products/:id', async (request, reply) => {
-        app.log.info('Produto requisitado> ' + request.params.id);
-        return {};
-    });
-    
-    app.delete('/products/:id', async (request, reply) => {
-        app.log.info('Produto para remover> ' + request.params.id);
-        return {};
-    });
-
-    
+ 
 
     app.setErrorHandler(async (error, request, reply) => {
+        const  { validation } = error;
         request.log.error({ error });
         reply.code(error.statusCode || 500);
 
-        return `Route ${request.url} caused an Internal Server Error.`;
+        
+        return validation ? `Validation Error: ${validation[0].message}.` : 'Internal Server Error';
     });
 
     app.get('/notfound', async (request, reply) => {
