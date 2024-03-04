@@ -1,0 +1,19 @@
+<algorithm> ::= "ALGORITMO " "\"" <name_convention> "\";\nVARIAVEIS\n" <var_declaration_section>
+
+<name_convention> ::= (<char>) + (<char> | "_" | int_number)*
+
+<var_declaration_section> ::= "\n" | <var_declaration>+
+<var_declaration> ::= "\t" <name_convention> (", " <name_convention>)* " : " <var_type> "\n"
+
+<valid_instructions> ::= <write_stm>
+
+<text_to_write> ::= "\"" (<char> | <int_number> | " ")* "\""
+<write_stm> ::= "\tESCREVA(" <text_to_write> | <name_convention> ");\n"
+
+<var_type> ::= "Inteiro" | "Real" | "Logico"
+
+
+<int_number> ::= [0-9]
+<char> ::= <uppercase_char> | <lowercase_char>
+<lowercase_char> ::= [a-z]
+<uppercase_char> ::= [A-Z]
