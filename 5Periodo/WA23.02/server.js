@@ -4,10 +4,10 @@ import closeWithGrace from 'close-with-grace';
 
 dotenv.config();
 
-const options = {  };
+const options = { };
 
-options.logger = process.stdout.isTTY ? { transport: { target: 'pino-pretty' } } : true;
-
+options.logger = process.stdout.isTTY ? { transport : { target: 'pino-pretty'} } : true;
+options.jwt_secret = process.env.JWT_SECRET || 'Abcd@1234'
 const server = await build(options);
 
 const port = process.env.PORT || '3000';
@@ -21,3 +21,8 @@ closeWithGrace(async ({ signal, err })=> {
 
     await server.close();
 });
+
+
+// setTimeout(() => {
+//     throw new Error('Erro no servidor');
+// }, 3000);

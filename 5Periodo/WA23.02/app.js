@@ -1,36 +1,30 @@
 import fastify from 'fastify';
 import createError from '@fastify/error';
-import autoload from '@fastify/autoload';
-import { fileURLToPath } from 'url';
+import autoload from '@fastify/autoload'
+import jwt from '@fastify/jwt'
+import { fileURLToPath } from 'url'; 
 import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-
 const MyCustomError = createError('MyCustomError', 'Something stranged happened.', 501);
 
 export async function build(opts){
     const app = fastify(opts);
-    
-    app.register(autoload, {
+
+    await app.register(jwt, {
+        secret: opts.jwt_secret
+    })
+
+    await app.register(autoload, {
+        dir: join(__dirname, 'hooks'),
+        encapsulate: false
+    })
+
+    await app.register(autoload, {
         dir: join(__dirname, 'routes')
-    });
-
-    const logMe = async(request, reply) => {
-        request.log.info(`Request on route: ${request.url}`)
-    }
-
-    app.addHook('onRoute', async(routeOptions) => {
-        if (routeOptions.config?.logMe) {
-            if(!Array.isArray(routeOptions.onRequest) && (routeOptions.onRequest)) {
-                routeOptions.onRequest = [routeOptions.onRequest];
-            } else {
-                routeOptions.onRequest = [];
-            }
-            routeOptions.onRequest.push(logMe)
-        }
-    });
+    })
 
     app.get('/error', (request, reply) => {
         throw new MyCustomError();

@@ -8,7 +8,7 @@ export default async function products(app, options) {
         {id: 2, name: 'Cebola', qtd: 50}
     ]
 
-    app.get('/products', { config: { logMe: true }}, async (request, reply) => {
+    app.get('/products', {config: { logMe: true }}, async (request, reply) => {
         return products;
     });
 
