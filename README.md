@@ -4,7 +4,7 @@
 O material está organizado por período, e possui:
 - Apostilas
 - Livros
-- Projetos simples
+- Projetos 
 
 
 ## Contato:
